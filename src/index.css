@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+:root {
+  --primary-crimson: #991b1b;
+  --primary-ruby: #be123c;
+  --warm-bg: #fafaf9;
+}

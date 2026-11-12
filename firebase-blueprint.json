@@ -1,0 +1,133 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Public profile of a verified user on Kindred.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "minLength": 2, "maxLength": 60 },
+        "age": { "type": "number" },
+        "city": { "type": "string", "maxLength": 100 },
+        "bio": { "type": "string", "maxLength": 500 },
+        "avatarUrl": { "type": "string", "maxLength": 1000 },
+        "isVerified": { "type": "boolean" },
+        "verificationType": { "type": "string", "maxLength": 50 },
+        "verificationHash": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "name", "isVerified"]
+    },
+    "Community": {
+      "title": "Interest Community",
+      "description": "Persistent space dedicated to a broad interest category.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 500 },
+        "icon": { "type": "string", "maxLength": 50 },
+        "category": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "name", "category"]
+    },
+    "SubCommunity": {
+      "title": "Sub Community",
+      "description": "A specific niche nested under a parent community.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "communityId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 500 },
+        "icon": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "communityId", "name"]
+    },
+    "Event": {
+      "title": "Community Event",
+      "description": "An activity unit inside a community or sub-community where interaction occurs.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "minLength": 3, "maxLength": 150 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "communityId": { "type": "string", "maxLength": 128 },
+        "subCommunityId": { "type": "string", "maxLength": 128 },
+        "communityName": { "type": "string", "maxLength": 100 },
+        "subCommunityName": { "type": "string", "maxLength": 100 },
+        "format": { "type": "string", "enum": ["online", "offline"] },
+        "onlineFormatType": { "type": "string", "enum": ["video", "voice", "chat"] },
+        "locationName": { "type": "string", "maxLength": 200 },
+        "locationAddress": { "type": "string", "maxLength": 300 },
+        "dateTime": { "type": "string", "maxLength": 60 },
+        "creatorId": { "type": "string", "maxLength": 128 },
+        "creatorName": { "type": "string", "maxLength": 60 },
+        "creatorAvatar": { "type": "string", "maxLength": 1000 },
+        "attendeeCount": { "type": "number" },
+        "maxAttendees": { "type": "number" },
+        "icebreaker": { "type": "string", "maxLength": 300 },
+        "status": { "type": "string", "enum": ["upcoming", "live", "completed", "cancelled"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "title", "communityId", "format", "dateTime", "creatorId", "status"]
+    },
+    "Attendee": {
+      "title": "Event Attendee",
+      "description": "User participation record in an event.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "userName": { "type": "string", "maxLength": 60 },
+        "userAvatar": { "type": "string", "maxLength": 1000 },
+        "userBio": { "type": "string", "maxLength": 500 },
+        "userAge": { "type": "number" },
+        "status": { "type": "string", "enum": ["joined", "raised_hand"] },
+        "joinedAt": { "type": "string" }
+      },
+      "required": ["userId", "userName", "status"]
+    },
+    "Message": {
+      "title": "Event Chat Message",
+      "description": "A group message sent inside an active event room.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "eventId": { "type": "string", "maxLength": 128 },
+        "senderId": { "type": "string", "maxLength": 128 },
+        "senderName": { "type": "string", "maxLength": 60 },
+        "senderAvatar": { "type": "string", "maxLength": 1000 },
+        "text": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "eventId", "senderId", "senderName", "text"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Profiles for verified platform users."
+    },
+    "/communities/{communityId}": {
+      "schema": "Community",
+      "description": "Broad interest communities."
+    },
+    "/subCommunities/{subCommunityId}": {
+      "schema": "SubCommunity",
+      "description": "Niche sub-communities under a parent community."
+    },
+    "/events/{eventId}": {
+      "schema": "Event",
+      "description": "Events created by users within communities."
+    },
+    "/events/{eventId}/attendees/{userId}": {
+      "schema": "Attendee",
+      "description": "Voluntary join/raise-hand attendees for an event."
+    },
+    "/events/{eventId}/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Event-scoped chat messages for online interaction."
+    }
+  }
+}

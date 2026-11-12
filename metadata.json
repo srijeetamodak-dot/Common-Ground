@@ -1,0 +1,11 @@
+{
+  "name": "Kindred",
+  "description": "A warm, free, low-pressure social platform for forming genuine friendships through shared niche interests, communities, and real-time events.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
